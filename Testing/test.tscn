@@ -1,0 +1,189 @@
+[gd_scene load_steps=21 format=3 uid="uid://b36o7fv6kxuo7"]
+
+[ext_resource type="PackedScene" uid="uid://eyy27jyu2xp8" path="res://Testing/Wheel.tscn" id="1_rdqe1"]
+[ext_resource type="Script" path="res://Testing/Ultrasonic.gd" id="2_onatc"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5ycur"]
+rough = true
+absorbent = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d0hoe"]
+size = Vector3(67.9505, 0.393423, 30.9381)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yhtbd"]
+albedo_color = Color(0.101961, 0.380392, 0.231373, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_plugi"]
+material = SubResource("StandardMaterial3D_yhtbd")
+size = Vector3(5, 0.25, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0ilag"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nv62j"]
+height = 0.001
+
+[sub_resource type="BoxMesh" id="BoxMesh_nsv2v"]
+size = Vector3(40, 0.3, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_an3hb"]
+points = PackedVector3Array(-20, -0.15, -0.5, -20, 0.15, -0.5, 20, -0.15, -0.5, -20, -0.15, 0.5, -20, 0.15, 0.5, 20, 0.15, -0.5, 20, -0.15, 0.5, 20, 0.15, 0.5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wt84r"]
+points = PackedVector3Array(-20, -0.15, -0.5, -20, 0.15, -0.5, 20, -0.15, -0.5, -20, -0.15, 0.5, -20, 0.15, 0.5, 20, 0.15, -0.5, 20, -0.15, 0.5, 20, 0.15, 0.5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_q1nc4"]
+points = PackedVector3Array(-20, -0.15, -0.5, -20, 0.15, -0.5, 20, -0.15, -0.5, -20, -0.15, 0.5, -20, 0.15, 0.5, 20, 0.15, -0.5, 20, -0.15, 0.5, 20, 0.15, 0.5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tqiuc"]
+points = PackedVector3Array(-20, -0.15, -0.5, -20, 0.15, -0.5, 20, -0.15, -0.5, -20, -0.15, 0.5, -20, 0.15, 0.5, 20, 0.15, -0.5, 20, -0.15, 0.5, 20, 0.15, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4o280"]
+albedo_color = Color(0.756863, 0.678431, 0.788235, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vootl"]
+material = SubResource("StandardMaterial3D_4o280")
+size = Vector3(0.2, 0.05, 0.1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_76k7h"]
+points = PackedVector3Array(-0.1, -0.025, -0.05, -0.1, 0.025, -0.05, 0.1, -0.025, -0.05, -0.1, -0.025, 0.05, -0.1, 0.025, 0.05, 0.1, 0.025, -0.05, 0.1, -0.025, 0.05, 0.1, 0.025, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lt60"]
+albedo_color = Color(0.231373, 0.74902, 0.239216, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ecgwp"]
+material = SubResource("StandardMaterial3D_8lt60")
+size = Vector3(0.03, 0.03, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8l2l"]
+albedo_color = Color(0.768627, 0.00784314, 0.00784314, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_iunau"]
+material = SubResource("StandardMaterial3D_f8l2l")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.01
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.978311, -0.0768765, 0.192346, -0.0220193, 0.884721, 0.4656, -0.205966, -0.459737, 0.86384, 1.2013, 0.633842, 2.10116)
+current = true
+fov = 83.0
+near = 0.012
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.729088, 0.68442, 0, -0.68442, 0.729088, 0, 9.57662, 0)
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.15, 0, 0, 0, 0.5, 0, 0, 0, 0.15, 0, 0, 0)
+
+[node name="Ground" type="StaticBody3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.91681, 0)
+physics_material_override = SubResource("PhysicsMaterial_5ycur")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/Ground"]
+shape = SubResource("BoxShape3D_d0hoe")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Ground"]
+transform = Transform3D(13.7331, 0, 0, 0, 1.59608, 0, 0, 0, 6.27968, 0, 0, 0)
+mesh = SubResource("BoxMesh_plugi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(39.8285, 0, 0, 0, 0.0988849, 0, 0, 0, 1, 0, -0.713793, 9.11805)
+mesh = SubResource("BoxMesh_0ilag")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(39.8285, 0, 0, 0, 0.0988849, 0, 0, 0, 1, 0, -0.713793, -6.65029)
+mesh = SubResource("BoxMesh_0ilag")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(-1.74096e-06, 0, 1, 0, 0.0988849, 0, -39.8285, 0, -4.37114e-08, 19.4425, -0.713793, 1.02587)
+mesh = SubResource("BoxMesh_0ilag")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(-1.74096e-06, 0, 1, 0, 0.0988849, 0, -39.8285, 0, -4.37114e-08, -19.4493, -0.713793, 1.02587)
+mesh = SubResource("BoxMesh_0ilag")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.714, 0)
+mesh = SubResource("CylinderMesh_nv62j")
+
+[node name="Walls" type="Node3D" parent="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.045888, -0.637577, 8.52482)
+mesh = SubResource("BoxMesh_nsv2v")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.045888, -0.637577, -6.67815)
+mesh = SubResource("BoxMesh_nsv2v")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D/Walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 19.5209, -0.637577, 0.346209)
+mesh = SubResource("BoxMesh_nsv2v")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D/Walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -18.1336, -0.637577, 0.346209)
+mesh = SubResource("BoxMesh_nsv2v")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D/Walls"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/Walls/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.045888, -0.637577, 8.52482)
+shape = SubResource("ConvexPolygonShape3D_an3hb")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Node3D/Walls/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.045888, -0.637577, -6.67815)
+shape = SubResource("ConvexPolygonShape3D_wt84r")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Node3D/Walls/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 19.5209, -0.637577, 0.346209)
+shape = SubResource("ConvexPolygonShape3D_q1nc4")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Node3D/Walls/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -18.1336, -0.637577, 0.346209)
+shape = SubResource("ConvexPolygonShape3D_tqiuc")
+
+[node name="VehicleBody3D" type="VehicleBody3D" parent="."]
+mass = 2.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D"]
+mesh = SubResource("BoxMesh_vootl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleBody3D"]
+shape = SubResource("ConvexPolygonShape3D_76k7h")
+
+[node name="FrontLeft" parent="VehicleBody3D" instance=ExtResource("1_rdqe1")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.07, -0.0103901, -0.06)
+
+[node name="FrontRight" parent="VehicleBody3D" instance=ExtResource("1_rdqe1")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.07, -0.01, 0.06)
+motorName = "FrontRight"
+port = "outB"
+
+[node name="BackLeft" parent="VehicleBody3D" instance=ExtResource("1_rdqe1")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.07, -0.01, -0.06)
+motorName = "BackLeft"
+port = "outC"
+
+[node name="BackRight" parent="VehicleBody3D" instance=ExtResource("1_rdqe1")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.07, -0.01, 0.06)
+motorName = "BackRight"
+port = "outD"
+
+[node name="Ultrasonic" type="Node3D" parent="VehicleBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.018, 0)
+script = ExtResource("2_onatc")
+deviceName = "sensorFront"
+port = "in1"
+
+[node name="USBox" type="MeshInstance3D" parent="VehicleBody3D/Ultrasonic"]
+mesh = SubResource("BoxMesh_ecgwp")
+
+[node name="RightCircle" type="MeshInstance3D" parent="VehicleBody3D/Ultrasonic"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.011, 0, 0.00848637)
+mesh = SubResource("CylinderMesh_iunau")
+
+[node name="LeftCircle" type="MeshInstance3D" parent="VehicleBody3D/Ultrasonic"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.011, 0, -0.008)
+mesh = SubResource("CylinderMesh_iunau")

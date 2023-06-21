@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://eyy27jyu2xp8"]
+
+[ext_resource type="Script" path="res://Testing/Motor.gd" id="1_nfey1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_34mxb"]
+albedo_color = Color(0.0235294, 0.172549, 0.266667, 1)
+metallic = 0.78
+roughness = 0.22
+emission = Color(0.384314, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_l7274"]
+material = SubResource("StandardMaterial3D_34mxb")
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.015
+radial_segments = 15
+
+[node name="FrontLeft" type="VehicleWheel3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.07, 0, -0.06)
+wheel_roll_influence = 0.03
+wheel_radius = 0.03
+wheel_rest_length = 0.002
+wheel_friction_slip = 30.0
+suspension_travel = 0.01
+suspension_stiffness = 400.0
+suspension_max_force = 20.0
+script = ExtResource("1_nfey1")
+motorName = "FrontLeft"
+port = "outA"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_l7274")
