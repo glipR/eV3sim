@@ -24,8 +24,8 @@ Simply using a raycast here seems to work.
 
 ### Colours
 
-Using a raycast then interpreting the colour from the physics material seems to be the only way. 
-This works for single colour materials or sprites, so our maps will have to be limited to these two.
+Using a raycast then interpreting the colour from the physics material seems to be the only way.
+This works for single colour materials or sprites, so our maps will have to be limited to these two. (Currently for testing, colour sensors will look for collision objects with Layer 9 enabled)
 
 If there is an easier way very open to ideas
 

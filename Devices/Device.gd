@@ -12,13 +12,18 @@ var _curTime = 0;
 # TODO for testing. Once everything is orchestrated not required.
 func _ready():
 	init(port);
+	on_init();
 
 func data_path():
-	return "res://device-data/%s/%s/" % [device_class(), port];
+	return "res://device-data/%s/%s/" % [device_class(), device_name()];
 
 # Abstract. The top-level folder name for this type of device.
 func device_class():
 	return ""
+
+# Can be overwritten if needed.
+func device_name():
+	return port;
 
 # Abstract. Defines all fields the device exposes/reads from.
 func defaults():
@@ -61,3 +66,7 @@ func write_attribute(attribute, value):
 		print(data_path() + attribute);
 	else:
 		res.store_string(value);
+
+# Override events
+func on_init():
+	pass;
