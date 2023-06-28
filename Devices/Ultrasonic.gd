@@ -1,8 +1,12 @@
 extends Device
 class_name UltrasonicSensor
 
-# TODO: Other modes
-const MODE_CM = "US-DIST-CM";
+const MODE_CM =     "US-DIST-CM";
+const MODE_IN =     "US-DIST-IN";
+const MODE_SI_CM =  "US-SI-CM";
+const MODE_SI_IN =  "US-SI-IN";
+const MODE_LISTEN = "US-LISTEN";
+const CM_TO_IN = 0.393701;
 
 # Tracked variables
 var mode = MODE_CM;
@@ -36,8 +40,18 @@ func handle_updates(delta):
 	var query = PhysicsRayQueryParameters3D.create(sensor_source.global_position, sensor_source.global_position+ search_vector, 1);
 	var result = space_state.intersect_ray(query);
 	
+	var dist = 300;
+	
 	if result:
-		var dist_cm = int(global_position.distance_to(result["position"]) * 100); # cm
-		write_attribute("value0", str(dist_cm));
-	else:
-		write_attribute("value0", str(300));
+		dist = global_position.distance_to(result["position"]) * 100; # cm
+
+	if mode == MODE_CM or mode == MODE_SI_CM:
+		write_attribute("decimals", "0");
+		write_attribute("value0", str(int(dist)));
+	elif mode == MODE_IN or mode == MODE_SI_IN:
+		write_attribute("value0", str(int(dist * CM_TO_IN * 100)));
+		write_attribute("decimals", "2");
+	elif mode == MODE_LISTEN:
+		# TODO: Identify how this works IRL.
+		write_attribute("value0", "0");
+		write_attribute("decimals", "0");
