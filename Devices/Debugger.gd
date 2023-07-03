@@ -20,6 +20,8 @@ var _cur_position = 0;
 var _cur_file_position = 0;
 var file_reader;
 
+var known_carriage = null;
+
 func on_init():
 	file_reader = FileAccess.open(data_path() + "free_text", FileAccess.READ);
 	if file_reader == null:
@@ -54,8 +56,9 @@ func handle_updates(delta):
 		if line == "":
 			break;
 		text.push_back(line);
-	# TODO: This should be different depending on whether \r is between lines
-	text = "\r\n".join(text);
+	if len(text) > 1 and known_carriage == null:
+		known_carriage = "\r" in file_reader.get_as_text(false);
+	text = ("\r\n" if known_carriage else "\n").join(text);
 	# For some reason seeking to EOF blocks all future reads silently, even if more text is now available (Checked with get_position vs. get_length)
 	# Therefore, just always be one behind on reading.
 	if _cur_file_position != 0:
