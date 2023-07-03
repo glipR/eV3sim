@@ -87,6 +87,7 @@ def run_func():
         else:
             speed = 0
         print("SPEED = ", speed, flush=True)
+        print("IR = ", [ir.value(x) for x in range(1, 6)])
         if us.distance_inches < 100 * 0.393701:
             lm1.on(-speed)
             lm2.on(-speed)
