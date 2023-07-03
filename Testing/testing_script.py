@@ -1,8 +1,6 @@
 import sys
 from unittest import mock
 
-print(sys.argv)
-
 # ev3dev2 changes made:
 # printing
 # wait
@@ -13,44 +11,10 @@ print(sys.argv)
 @mock.patch("ev3dev2.motor.Motor.wait", lambda s, cond, t: True)
 def run_func():
     import time
-    import queue
     from ev3dev2.motor import LargeMotor
     from ev3dev2.sensor.lego import ColorSensor, UltrasonicSensor
-    from ev3dev2.sensor import Sensor, Device
+    from ev3dev2.sensor import Sensor
 
-    # class Debugger(Device):
-
-    #     SYSTEM_CLASS_NAME = "debug"
-    #     SYSTEM_DEVICE_NAME_CONVENTION = "*"
-
-    #     __slots__ = [
-    #         '_path',
-    #         '_device_index',
-    #         '_attr_cache',
-    #         '_safe_cache',
-    #         'kwargs',
-    #         '_msg_queue',
-    #         '_free_text'
-    #     ]
-
-    #     def __init__(self, **kwargs):
-    #         super().__init__(self.SYSTEM_CLASS_NAME, self.SYSTEM_DEVICE_NAME_CONVENTION, False, **kwargs)
-    #         self._msg_queue = queue.Queue()
-    #         self._free_text = None
-
-    #     def post_message(self, *args):
-    #         self._msg_queue.put(" ".join(map(str, args)))
-    #         self._free_text, free_text = self.get_attr_string(self._free_text, "free_text")
-    #         if free_text:
-    #             return
-    #         vals = []
-    #         while not self._msg_queue.empty():
-    #             vals.append(self._msg_queue.get())
-    #         vals = "\n".join(vals)
-    #         self._free_text = self.set_attr_string(self._free_text, "free_text", vals)
-
-
-    # debug = Debugger(address="debug")
     print("Connecting Devices...")
     print(sys.argv[1:])
 
