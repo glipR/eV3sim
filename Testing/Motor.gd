@@ -1,7 +1,11 @@
 extends VehicleWheel3D
 
+# Think work on this is blocked until https://github.com/godotengine/godot/issues/68193 gets fixed.
+
 const POLLING_FREQUENCY = 0.1;
-const FORCE_MULTIPLIER = 0.01;
+const FORCE_MULTIPLIER = 0.03;
+const MAX_RPM = 0.01;
+const LIMIT = MAX_RPM;
 
 @export
 var motorName: String;
@@ -14,8 +18,22 @@ var curTime = 0;
 var time_sp = 0;
 var speed_sp = 0;
 var position_sp = 0;
-var stop_action = "";
+var stop_action = "hold";
 var wait_time = 0;
+
+var target_rpm = 0;
+var kp = 2;
+var ki = 0;
+var kd = 0;
+
+var _proportional = 0;
+var _integral = 0;
+var _derivative = 0;
+
+var _last_in = 0;
+var _last_error = 0;
+
+var _iter = 0;
 
 func data_path():
 	return "res://device-data/tacho-motor/" + motorName + "/";
@@ -43,6 +61,7 @@ func _ready():
 		write_attribute(k, d[k]);
 
 func _physics_process(delta):
+	set_engine(do_pid(delta));
 	curTime -= delta;
 	if curTime < 0:
 		curTime += POLLING_FREQUENCY;
@@ -86,34 +105,34 @@ func set_engine(speed):
 
 func on():
 	var speed = float(read_attribute("speed_sp"));
-	set_engine(speed);
+	target_rpm = clamp(speed / 100.0 * MAX_RPM, -MAX_RPM, MAX_RPM);
 	write_attribute("state", "running");
 	wait_time = -1;
 
 func on_for_seconds():
 	var speed = float(read_attribute("speed_sp"));
-	set_engine(speed);
+	target_rpm = clamp(speed / 100.0 * MAX_RPM, -MAX_RPM, MAX_RPM);
 	wait_time = float(read_attribute("time_sp")) / 1000.0;
 	write_attribute("state", "running");
 
 func on_for_rotations():
 	# ACTUALLY TEST ME
 	var speed = float(read_attribute("speed_sp"));
-	var position = float(read_attribute("position_sp"));
+	var position_sp = float(read_attribute("position_sp"));
 	var per_rot = float(read_attribute("counts_per_rot"));
 
-	var rotations = position / per_rot;
+	var rotations = position_sp / per_rot;
 	if rotations < 0:
 		rotations *= -1;
 		speed *= -1;
 
-	set_engine(speed);
+	target_rpm = clamp(speed / 100.0 * MAX_RPM, -MAX_RPM, MAX_RPM);
 	wait_time = rotations / 10 * speed / 100;
 
 	write_attribute("state", "running");
 
 func stop():
-	set_engine(0);
+	target_rpm = 0;
 	# TODO: stop-action
 	brake = 0.03;
 	wait_time = -1;
@@ -124,3 +143,27 @@ func reset():
 	write_attribute("time_sp", "0");
 	write_attribute("speed_sp", "0");
 	write_attribute("position_sp", "0");
+
+func do_pid(delta):
+	return target_rpm * 100 / MAX_RPM;
+	var error = target_rpm - get_rpm();
+	_proportional = kp * error;
+	_integral += ki * error * delta;
+	_integral = clamp(_integral, -LIMIT, LIMIT);
+	_derivative = kd * (error - _last_error) / delta;
+	var output = _proportional + _integral + _derivative;
+	output = clamp(output, -LIMIT, LIMIT);
+	# Small clamp.
+	if abs(output) < 0.001:
+		output = 0;
+	
+	_last_error = error;
+	
+	_iter += 1;
+	
+	if motorName == "FrontRight":
+		print(error, " ", get_rpm(), " ", get_skidinfo(), "", is_in_contact());
+		# print("P: %.1f I: %.1f D: %.1f" % [_proportional * 100, _integral * 100, _derivative * 100]);
+	
+	return output / MAX_RPM * 100;
+	
