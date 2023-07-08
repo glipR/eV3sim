@@ -1,6 +1,6 @@
-# EV3Sim (Currently in RFC Stage)
+# EV3Sim
 
-A Robotics simulation software, empowering you to simulate various robotics apparatus in your language of choice
+A robotics simulation software that emulates the hardware of Lego EV3 Devices and more.
 
 !! EV3Sim is currently in the early stages of development. Nothing is set in stone.
 
@@ -10,8 +10,8 @@ A Robotics simulation software, empowering you to simulate various robotics appa
 
 In the map creation, every physics material needs:
 
-* To be auto-assigned some layer to tell the rest of the game this is collidable
-* To create some linkage so that the colour of the material is inspectable.
+* The collidable layer
+* The light-collide layer (for colour sensors)
 
 ### Motors
 
@@ -25,13 +25,16 @@ Simply using a raycast here seems to work.
 ### Colours
 
 Using a raycast then interpreting the colour from the physics material seems to be the only way.
-This works for single colour materials or sprites, so our maps will have to be limited to these two. (Currently for testing, colour sensors will look for collision objects with Layer 9 enabled)
+This works for single colour materials or sprites, so our maps will have to be limited to these two.
+In order to determine what layers have 'color', layer 9 must be enabled.
+
+TODO: Use multiple raycasts and take average colour to allow for gradients.
 
 If there is an easier way very open to ideas
 
-### Touch Sensors
+### TODO: Touch Sensors
 
-These should be relatively simple using a collision box. Ensure the vehicles are in their own layer to avoid issues.
+These should be relatively simple using a collision box (This should be a sensor). Ensure the vehicles are in their own layer to avoid issues.
 
 ### Infrared Sensors
 
@@ -48,7 +51,7 @@ To get started, clone the repository, open Godot, and click the "Import" button,
 * Support multiple languages and ways of working
 * Support many of the customisation features present in original ev3sim (something akin to custom presets)
 * Provide an easy way to replay games for tournament settings or testing
-* Require at most minimal code change from the user point of view between simulation and reality.
+* Require at most minimal code change from the user point of view between simulation and reality (Some small tweaks seem required, but make it easy to support a new language).
 
 ### Anti-Goals
 
@@ -74,12 +77,19 @@ Here's a list of things that need to be done before a v1 can really be considere
 	* This filepath can represent a godot prefab, some custom yaml config, or something else. Still up in the air
 * Working orchestration of multiple language executions
 	* Single click to spawn many bots and have them all running simultaneously
+		* Need to decide on how threading will be done, if just using Godot's threads is performant enough
 * Working maps (soccer), loaded from a filepath
-* Minimal GUI
+	* Either a Godot prefab or something more structured like yaml which gets turned into a scene (Leaning towards scene)
+* Minimal GUI (Play button, select prefab)
 * Python implementation working
 
 And here's things that could be added in future:
 
-* Testing other language implementations of ev3dev
+* Supporting other language implementations of ev3dev
 * Adding support for other robotics devices through the same file read/write pattern
 * In-Sim Bot Editor
+* Easier to add custom levels
+* File associations for launching custom levels
+* Tournament scripts
+* Replay functionality
+* More!
