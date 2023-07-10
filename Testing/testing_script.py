@@ -1,13 +1,65 @@
 import sys
+import time
 from unittest import mock
 
 # ev3dev2 changes made:
 # wait
-# attribute file caching
 # _scale reimplementation
 
-@mock.patch("ev3dev2.Device.DEVICE_ROOT_PATH", "C:/Users/jgoer/OneDrive/Desktop/Github/eV3sim/device-data")
-@mock.patch("ev3dev2.motor.Motor.wait", lambda s, cond, t: True) # TODO
+from ev3dev2 import Device
+class MockedDevice(Device):
+
+    # For testing purposes.
+    DEVICE_ROOT_PATH = "C:/Users/jgoer/OneDrive/Desktop/Github/eV3sim/device-data"
+
+    __slots__ = [
+        '_path',
+        '_device_index',
+        '_attr_cache',
+        '_safe_cache',
+        'kwargs',
+    ]
+
+    def __init__(self, class_name, name_pattern='*', name_exact=False, **kwargs):
+        super().__init__(class_name, name_pattern, name_exact, **kwargs)
+        self._safe_cache = {}
+
+    def _get_attribute(self, attribute, name, use_safe_cache=True):
+        """Device attribute getter"""
+        try:
+            if attribute is None:
+                attribute = self._attribute_file_open(name)
+            else:
+                attribute.seek(0)
+            value = attribute.read().strip().decode()
+            if value != "":
+                self._safe_cache[name] = value
+            elif use_safe_cache:
+                value = self._safe_cache.get(name, value)
+            return attribute, value
+        except Exception as ex:
+            self._raise_friendly_access_error(ex, name, None)
+
+    def get_attr_string(self, attribute, name):
+        # Strings may be empty
+        return self._get_attribute(attribute, name, use_safe_cache=False)
+
+def mocked_scale(self, mode):
+    # Don't cache per-mode decimals.
+    return 10**(-self.decimals)
+
+def mocked_wait(self, cond, timeout=None):
+    tic = time.time()
+    while True:
+        if cond(self.state):
+            return True
+        if timeout is not None and time.time() >= tic + timeout / 1000:
+            return cond(self.state)
+        time.sleep(0.05)
+
+@mock.patch("ev3dev2.Device", MockedDevice)
+@mock.patch("ev3dev2.sensor.Sensor._scale", mocked_scale)
+@mock.patch("ev3dev2.motor.Motor.wait", mocked_wait)
 def run_func():
     import time
     from ev3dev2.motor import LargeMotor
