@@ -2,13 +2,12 @@ import sys
 from unittest import mock
 
 # ev3dev2 changes made:
-# printing
 # wait
 # attribute file caching
 # _scale reimplementation
 
 @mock.patch("ev3dev2.Device.DEVICE_ROOT_PATH", "C:/Users/jgoer/OneDrive/Desktop/Github/eV3sim/device-data")
-@mock.patch("ev3dev2.motor.Motor.wait", lambda s, cond, t: True)
+@mock.patch("ev3dev2.motor.Motor.wait", lambda s, cond, t: True) # TODO
 def run_func():
     import time
     from ev3dev2.motor import LargeMotor
@@ -40,8 +39,6 @@ def run_func():
             print(f"Iteration {_iter} / {max_iterations}")
         if _iter > max_iterations:
             return
-        if cs.color < len(cs.COLORS):
-            print("COLOR = ", cs.COLORS[cs.color])
         if cs.color == cs.COLOR_GREEN:
             speed = 10
         elif cs.color == cs.COLOR_BLUE:
@@ -51,7 +48,6 @@ def run_func():
         else:
             speed = 0
         print("SPEED = ", speed, flush=True)
-        print("IR = ", [ir.value(x) for x in range(1, 6)])
         if us.distance_inches < 100 * 0.393701:
             lm1.on(-speed)
             lm2.on(-speed)

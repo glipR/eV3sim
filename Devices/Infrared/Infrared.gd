@@ -19,12 +19,15 @@ const MAX_SENSOR_RANGE = 3;
 const MAX_STRENGTH = 9.0;
 
 const SENSOR_ANGLES_DEGREES = [
-	-60,
-	-30,
-	0,
+	60,
 	30,
-	60 
+	0,
+	-30,
+	-60 
 ]
+
+var debug_path = preload("res://Devices/Infrared/InfraredDebug.tscn");
+var all_strengths = [];
 
 func device_class():
 	return "lego-sensor"
@@ -77,7 +80,7 @@ func handle_updates(delta):
 		.rotated(Vector3.UP, global_rotation.y)\
 		.rotated(Vector3.BACK, global_rotation.z);
 	
-	var front_device = Vector3.LEFT\
+	var front_device = Vector3.RIGHT\
 		.rotated(Vector3.RIGHT, global_rotation.x)\
 		.rotated(Vector3.UP, global_rotation.y)\
 		.rotated(Vector3.BACK, global_rotation.z);
@@ -86,8 +89,9 @@ func handle_updates(delta):
 	var distance = diff.length();
 	var total_strength = 0;
 	var weight_strength = 0;
+	var tmp_strengths = [];
 	for angle in SENSOR_ANGLES_DEGREES:
-		var vector = Vector3.LEFT\
+		var vector = Vector3.RIGHT\
 			.rotated(Vector3.UP, angle / 180.0 * PI)\
 			.rotated(Vector3.RIGHT, global_rotation.x)\
 			.rotated(Vector3.UP, global_rotation.y)\
@@ -97,7 +101,9 @@ func handle_updates(delta):
 		total_strength += strength;
 		weight_strength += idx * strength;
 		write_attribute("value" + str(idx+1), str(int(strength)));
+		tmp_strengths.push_back(strength);
 		idx += 1;
+	all_strengths = tmp_strengths;
 
 	# Predict direction
 	var direction;
@@ -111,3 +117,8 @@ func handle_updates(delta):
 	
 	# Strength
 	write_attribute("value6", str(int(total_strength / 5.0)));
+	
+func get_debugger_representation():
+	var repr = debug_path.instantiate();
+	repr.on_init(self);
+	return repr;

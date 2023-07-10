@@ -15,7 +15,7 @@ bottom_radius = 0.025
 height = 0.015
 radial_segments = 15
 
-[node name="FrontLeft" type="VehicleWheel3D"]
+[node name="FrontLeft" type="VehicleWheel3D" groups=["DEVICES"]]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.07, 0, -0.06)
 wheel_roll_influence = 0.03
 wheel_radius = 0.03

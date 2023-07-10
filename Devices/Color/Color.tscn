@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://cj3gcfqdsoog1"]
+
+[ext_resource type="Script" path="res://Devices/Color/Color.gd" id="1_4ydqj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_07rh3"]
+albedo_color = Color(0.74902, 0.231373, 0.74902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_i1mei"]
+material = SubResource("StandardMaterial3D_07rh3")
+size = Vector3(0.05, 0.03, 0.03)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sm78v"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_v2ea6"]
+material = SubResource("StandardMaterial3D_sm78v")
+top_radius = 0.005
+bottom_radius = 0.005
+height = 0.02
+
+[node name="Color" type="Node3D" groups=["DEVICES"]]
+script = ExtResource("1_4ydqj")
+port = "in2"
+
+[node name="USBox" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00989473, 0.011003, 0)
+mesh = SubResource("BoxMesh_i1mei")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0216249, 0.00513032, 0)
+mesh = SubResource("CylinderMesh_v2ea6")
+
+[node name="SensorSource" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0217417, -0.0107554, 0)

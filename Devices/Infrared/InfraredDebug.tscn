@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3 uid="uid://nyylfdvmywvv"]
+
+[ext_resource type="Script" path="res://Devices/Infrared/InfraredDebug.gd" id="1_uwv2p"]
+
+[node name="InfraredDebug" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uwv2p")
+
+[node name="BG" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(15, 25)
+layout_mode = 0
+offset_left = -7.5
+offset_top = -12.5
+offset_right = 7.5
+offset_bottom = 12.5
+color = Color(0.223529, 0.223529, 0.223529, 1)
+
+[node name="SubSensor1" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -6.0
+offset_top = -10.0
+offset_right = 4.0
+offset_bottom = -7.0
+rotation = -0.174533
+pivot_offset = Vector2(5, 1.5)
+color = Color(0.788235, 0.180392, 0.180392, 1)
+
+[node name="SubSensor2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -6.0
+offset_right = 5.0
+offset_bottom = -3.0
+rotation = -0.0872665
+pivot_offset = Vector2(5, 1.5)
+color = Color(0.788235, 0.180392, 0.180392, 1)
+
+[node name="SubSensor3" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -2.0
+offset_right = 5.0
+offset_bottom = 1.0
+pivot_offset = Vector2(5, 1.5)
+color = Color(0.788235, 0.180392, 0.180392, 1)
+
+[node name="SubSensor4" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -5.0
+offset_top = 2.0
+offset_right = 5.0
+offset_bottom = 5.0
+rotation = 0.0872665
+pivot_offset = Vector2(5, 1.5)
+color = Color(0.788235, 0.180392, 0.180392, 1)
+
+[node name="SubSensor5" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -6.0
+offset_top = 6.0
+offset_right = 4.0
+offset_bottom = 9.0
+rotation = 0.174533
+pivot_offset = Vector2(5, 1.5)
+color = Color(0.788235, 0.180392, 0.180392, 1)

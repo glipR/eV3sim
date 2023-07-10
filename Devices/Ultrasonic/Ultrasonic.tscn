@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq1h1gnt64hpm"]
+
+[ext_resource type="Script" path="res://Devices/Ultrasonic/Ultrasonic.gd" id="1_uyix5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lt60"]
+albedo_color = Color(0.231373, 0.74902, 0.239216, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ecgwp"]
+material = SubResource("StandardMaterial3D_8lt60")
+size = Vector3(0.03, 0.03, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8l2l"]
+albedo_color = Color(0.768627, 0.00784314, 0.00784314, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_iunau"]
+material = SubResource("StandardMaterial3D_f8l2l")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.01
+
+[node name="Ultrasonic" type="Node3D" groups=["DEVICES"]]
+script = ExtResource("1_uyix5")
+port = "in1"
+
+[node name="USBox" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ecgwp")
+
+[node name="RightCircle" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.011, 0, 0.00848637)
+mesh = SubResource("CylinderMesh_iunau")
+
+[node name="LeftCircle" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.011, 0, -0.008)
+mesh = SubResource("CylinderMesh_iunau")
+
+[node name="SensorSource" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00783712, 0, 0)

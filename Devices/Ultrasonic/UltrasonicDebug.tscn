@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://vpguj807t831"]
+
+[ext_resource type="Script" path="res://Devices/Ultrasonic/UltrasonicDebug.gd" id="1_ig0wy"]
+
+[node name="UltrasonicDebug" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ig0wy")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(15, 25)
+layout_mode = 0
+offset_left = -7.5
+offset_top = -12.5
+offset_right = 7.5
+offset_bottom = 12.5
+
+[node name="Label" type="Label" parent="."]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = -7.5
+offset_top = -12.5
+offset_right = 7.5
+offset_bottom = 13.5
+theme_override_font_sizes/font_size = 9
+text = "120"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true

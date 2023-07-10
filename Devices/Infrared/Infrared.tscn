@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://5rumwoquilue"]
+
+[ext_resource type="Script" path="res://Devices/Infrared/Infrared.gd" id="1_qm4eq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5ig5j"]
+albedo_color = Color(1, 0.764706, 0.219608, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6vnnd"]
+material = SubResource("StandardMaterial3D_5ig5j")
+size = Vector3(0.06, 0.03, 0.03)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fosl1"]
+albedo_color = Color(0.301961, 0.301961, 0.301961, 1)
+metallic = 0.72
+roughness = 0.26
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oyyx3"]
+material = SubResource("StandardMaterial3D_fosl1")
+radius = 0.01
+height = 0.05
+
+[node name="Infrared" type="Node3D" groups=["DEVICES"]]
+script = ExtResource("1_qm4eq")
+port = "in3"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_6vnnd")
+
+[node name="SensorSource" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.028, 0, 0)
+
+[node name="SensorBump" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.017, 0, 0)
+mesh = SubResource("CapsuleMesh_oyyx3")

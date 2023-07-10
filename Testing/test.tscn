@@ -1,9 +1,10 @@
-[gd_scene load_steps=45 format=3 uid="uid://b36o7fv6kxuo7"]
+[gd_scene load_steps=34 format=3 uid="uid://b36o7fv6kxuo7"]
 
+[ext_resource type="Script" path="res://Simulation/Bot.gd" id="1_5rarr"]
 [ext_resource type="PackedScene" uid="uid://eyy27jyu2xp8" path="res://Testing/Wheel.tscn" id="1_rdqe1"]
-[ext_resource type="Script" path="res://Devices/Ultrasonic.gd" id="2_1o6r1"]
-[ext_resource type="Script" path="res://Devices/Color.gd" id="3_irtyw"]
-[ext_resource type="Script" path="res://Devices/Infrared.gd" id="4_e3bhx"]
+[ext_resource type="PackedScene" uid="uid://dq1h1gnt64hpm" path="res://Devices/Ultrasonic/Ultrasonic.tscn" id="2_6w302"]
+[ext_resource type="PackedScene" uid="uid://cj3gcfqdsoog1" path="res://Devices/Color/Color.tscn" id="3_amn4s"]
+[ext_resource type="PackedScene" uid="uid://5rumwoquilue" path="res://Devices/Infrared/Infrared.tscn" id="4_lknro"]
 [ext_resource type="Script" path="res://Devices/Debugger.gd" id="5_mxlfe"]
 [ext_resource type="Theme" uid="uid://dncim1co77xfr" path="res://Testing/TerminalTheme.tres" id="6_375nb"]
 
@@ -74,55 +75,6 @@ size = Vector3(0.2, 0.05, 0.1)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_76k7h"]
 points = PackedVector3Array(-0.1, -0.025, -0.05, -0.1, 0.025, -0.05, 0.1, -0.025, -0.05, -0.1, -0.025, 0.05, -0.1, 0.025, 0.05, 0.1, 0.025, -0.05, 0.1, -0.025, 0.05, 0.1, 0.025, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8lt60"]
-albedo_color = Color(0.231373, 0.74902, 0.239216, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_ecgwp"]
-material = SubResource("StandardMaterial3D_8lt60")
-size = Vector3(0.03, 0.03, 0.06)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8l2l"]
-albedo_color = Color(0.768627, 0.00784314, 0.00784314, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_iunau"]
-material = SubResource("StandardMaterial3D_f8l2l")
-top_radius = 0.01
-bottom_radius = 0.01
-height = 0.01
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_07rh3"]
-albedo_color = Color(0.74902, 0.231373, 0.74902, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_i1mei"]
-material = SubResource("StandardMaterial3D_07rh3")
-size = Vector3(0.05, 0.03, 0.03)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sm78v"]
-albedo_color = Color(0, 0, 0, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_v2ea6"]
-material = SubResource("StandardMaterial3D_sm78v")
-top_radius = 0.005
-bottom_radius = 0.005
-height = 0.02
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5ig5j"]
-albedo_color = Color(1, 0.764706, 0.219608, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_6vnnd"]
-material = SubResource("StandardMaterial3D_5ig5j")
-size = Vector3(0.06, 0.03, 0.03)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fosl1"]
-albedo_color = Color(0.301961, 0.301961, 0.301961, 1)
-metallic = 0.72
-roughness = 0.26
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_oyyx3"]
-material = SubResource("StandardMaterial3D_fosl1")
-radius = 0.01
-height = 0.05
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_78c61"]
 bg_color = Color(0.180392, 0.180392, 0.180392, 0.501961)
@@ -221,7 +173,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -18.13
 shape = SubResource("ConvexPolygonShape3D_tqiuc")
 
 [node name="Other" type="StaticBody3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6324, -0.715088, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.064, -0.715088, 0)
 collision_layer = 256
 
 [node name="Mesh" type="MeshInstance3D" parent="Node3D/Other"]
@@ -251,10 +203,11 @@ mesh = SubResource("PrismMesh_tf7am")
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_qyo2t")
 
-[node name="VehicleBody3D" type="VehicleBody3D" parent="."]
+[node name="VehicleBody3D" type="VehicleBody3D" parent="." groups=["ROBOTS"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.80968, -0.0984543, 0)
 mass = 2.0
 inertia = Vector3(0, 0, 30)
+script = ExtResource("1_5rarr")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D"]
 mesh = SubResource("BoxMesh_vootl")
@@ -280,55 +233,14 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.07,
 motorName = "BackRight"
 port = "outD"
 
-[node name="Ultrasonic" type="Node3D" parent="VehicleBody3D"]
+[node name="Ultrasonic" parent="VehicleBody3D" instance=ExtResource("2_6w302")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.018, 0)
-script = ExtResource("2_1o6r1")
-port = "in1"
 
-[node name="USBox" type="MeshInstance3D" parent="VehicleBody3D/Ultrasonic"]
-mesh = SubResource("BoxMesh_ecgwp")
-
-[node name="RightCircle" type="MeshInstance3D" parent="VehicleBody3D/Ultrasonic"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.011, 0, 0.00848637)
-mesh = SubResource("CylinderMesh_iunau")
-
-[node name="LeftCircle" type="MeshInstance3D" parent="VehicleBody3D/Ultrasonic"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.011, 0, -0.008)
-mesh = SubResource("CylinderMesh_iunau")
-
-[node name="SensorSource" type="Node3D" parent="VehicleBody3D/Ultrasonic"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00783712, 0, 0)
-
-[node name="Color" type="Node3D" parent="VehicleBody3D"]
+[node name="Color" parent="VehicleBody3D" instance=ExtResource("3_amn4s")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0137321, 0.018, 0.0453442)
-script = ExtResource("3_irtyw")
-port = "in2"
 
-[node name="USBox" type="MeshInstance3D" parent="VehicleBody3D/Color"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00989473, 0.011003, 0)
-mesh = SubResource("BoxMesh_i1mei")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/Color"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0216249, 0.00513032, 0)
-mesh = SubResource("CylinderMesh_v2ea6")
-
-[node name="SensorSource" type="Node3D" parent="VehicleBody3D/Color"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0217417, -0.0107554, 0)
-
-[node name="Infrared" type="Node3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0988833, 0.0272003, 0)
-script = ExtResource("4_e3bhx")
-port = "in3"
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/Infrared"]
-mesh = SubResource("BoxMesh_6vnnd")
-
-[node name="SensorSource" type="Node3D" parent="VehicleBody3D/Infrared"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0283275, 0, 0)
-
-[node name="SensorBump" type="MeshInstance3D" parent="VehicleBody3D/Infrared"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.016772, 0, 0)
-mesh = SubResource("CapsuleMesh_oyyx3")
+[node name="Infrared" parent="VehicleBody3D" instance=ExtResource("4_lknro")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.1, 0.027, 0)
 
 [node name="Camera3D" type="Camera3D" parent="VehicleBody3D"]
 transform = Transform3D(0.978311, -0.0768767, 0.192346, -0.0220193, 0.884721, 0.4656, -0.205966, -0.459737, 0.86384, -0.435481, 0.958221, 2.10116)
@@ -336,11 +248,11 @@ current = true
 fov = 83.0
 near = 0.012
 
-[node name="Node3D" type="Node3D" parent="VehicleBody3D"]
+[node name="GUI" type="Node3D" parent="VehicleBody3D"]
 script = ExtResource("5_mxlfe")
 port = "debug"
 
-[node name="Debugger" type="Control" parent="VehicleBody3D/Node3D"]
+[node name="Debugger" type="Control" parent="VehicleBody3D/GUI"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -348,13 +260,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SharedPanel" type="Panel" parent="VehicleBody3D/Node3D/Debugger"]
+[node name="SharedPanel" type="Panel" parent="VehicleBody3D/GUI/Debugger"]
 layout_mode = 0
 offset_right = 321.0
 offset_bottom = 191.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_78c61")
 
-[node name="Label" type="RichTextLabel" parent="VehicleBody3D/Node3D/Debugger/SharedPanel"]
+[node name="Label" type="RichTextLabel" parent="VehicleBody3D/GUI/Debugger/SharedPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -366,7 +278,7 @@ theme_override_fonts/normal_font = SubResource("SystemFont_6b60k")
 scroll_following = true
 autowrap_mode = 0
 
-[node name="TrackerPanel" type="PanelContainer" parent="VehicleBody3D/Node3D/Debugger"]
+[node name="TrackerPanel" type="PanelContainer" parent="VehicleBody3D/GUI/Debugger"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -378,10 +290,22 @@ offset_bottom = -429.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ItemContainer" type="VBoxContainer" parent="VehicleBody3D/Node3D/Debugger/TrackerPanel"]
+[node name="ItemContainer" type="VBoxContainer" parent="VehicleBody3D/GUI/Debugger/TrackerPanel"]
 layout_mode = 2
-size_flags_horizontal = 0
 size_flags_vertical = 0
+
+[node name="FixedVehicleIndicator" type="Control" parent="VehicleBody3D/GUI/Debugger/TrackerPanel/ItemContainer"]
+custom_minimum_size = Vector2(225, 80)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="BasePlateRect" type="ColorRect" parent="VehicleBody3D/GUI/Debugger/TrackerPanel/ItemContainer/FixedVehicleIndicator"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 19.0
+offset_right = 180.0
+offset_bottom = 60.0
+color = Color(0.603922, 0.603922, 0.603922, 1)
 
 [node name="IRBall1" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.759124)

@@ -12,6 +12,9 @@ var motorName: String;
 @export
 var port: String;
 
+var debugPath = preload("res://Devices/Prefabs/WheelDebug.tscn");
+var speedColors = Gradient.new();
+
 var curTime = 0;
 
 # Motor attributes
@@ -34,6 +37,8 @@ var _last_in = 0;
 var _last_error = 0;
 
 var _iter = 0;
+
+var debug_repr;
 
 func data_path():
 	return "res://device-data/tacho-motor/" + motorName + "/";
@@ -59,6 +64,10 @@ func _ready():
 	var d = defaults();
 	for k in d:
 		write_attribute(k, d[k]);
+		
+	speedColors.set_color(0, Color(1, 0, 0));
+	speedColors.set_color(1, Color(0, 1, 0));
+	speedColors.add_point(0.5, Color(0.6, 0.6, 0.6));
 
 func _physics_process(delta):
 	set_engine(do_pid(delta));
@@ -85,6 +94,8 @@ func write_attribute(attribute, value):
 
 func handle_updates():
 	var com = read_attribute("command");
+	if debug_repr:
+		debug_repr.get_node("Color").color = speedColors.sample(speed_sp / 200.0 + 0.5);
 	if com:
 		if com == "run-forever":
 			on();
@@ -104,30 +115,30 @@ func set_engine(speed):
 	brake = 0;
 
 func on():
-	var speed = float(read_attribute("speed_sp"));
-	target_rpm = clamp(speed / 100.0 * MAX_RPM, -MAX_RPM, MAX_RPM);
+	speed_sp = float(read_attribute("speed_sp"));
+	target_rpm = clamp(speed_sp / 100.0 * MAX_RPM, -MAX_RPM, MAX_RPM);
 	write_attribute("state", "running");
 	wait_time = -1;
 
 func on_for_seconds():
-	var speed = float(read_attribute("speed_sp"));
-	target_rpm = clamp(speed / 100.0 * MAX_RPM, -MAX_RPM, MAX_RPM);
+	speed_sp = float(read_attribute("speed_sp"));
+	target_rpm = clamp(speed_sp / 100.0 * MAX_RPM, -MAX_RPM, MAX_RPM);
 	wait_time = float(read_attribute("time_sp")) / 1000.0;
 	write_attribute("state", "running");
 
 func on_for_rotations():
 	# ACTUALLY TEST ME
-	var speed = float(read_attribute("speed_sp"));
-	var position_sp = float(read_attribute("position_sp"));
+	speed_sp = float(read_attribute("speed_sp"));
+	position_sp = float(read_attribute("position_sp"));
 	var per_rot = float(read_attribute("counts_per_rot"));
 
 	var rotations = position_sp / per_rot;
 	if rotations < 0:
 		rotations *= -1;
-		speed *= -1;
+		speed_sp *= -1;
 
-	target_rpm = clamp(speed / 100.0 * MAX_RPM, -MAX_RPM, MAX_RPM);
-	wait_time = rotations / 10 * speed / 100;
+	target_rpm = clamp(speed_sp / 100.0 * MAX_RPM, -MAX_RPM, MAX_RPM);
+	wait_time = rotations / 10 * speed_sp / 100;
 
 	write_attribute("state", "running");
 
@@ -166,4 +177,11 @@ func do_pid(delta):
 		# print("P: %.1f I: %.1f D: %.1f" % [_proportional * 100, _integral * 100, _derivative * 100]);
 	
 	return output / MAX_RPM * 100;
+
+# DEBUGGING
+
+func get_debugger_representation():
+	debug_repr = debugPath.instantiate();
+	return debug_repr;
 	
+

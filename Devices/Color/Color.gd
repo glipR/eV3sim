@@ -25,6 +25,9 @@ var mode = MODE_RGB_RAW;
 @onready
 var sensor_source = $SensorSource;
 
+var debug_path = preload("res://Devices/Color/ColorDebug.tscn");
+var cur_color;
+
 func device_class():
 	return "lego-sensor"
 
@@ -62,6 +65,8 @@ func handle_updates(delta):
 				color = collider_mesh.mesh.material.albedo_color;
 		# TODO: Logic for sprite
 	
+	cur_color = color;
+	
 	if mode == MODE_RGB_RAW or mode == MODE_REF_RAW:
 		write_attribute("value0", str(int(color[0]*255)));
 		write_attribute("value1", str(int(color[1]*255)));
@@ -92,3 +97,9 @@ func handle_updates(delta):
 			write_attribute("value0", "0");
 		else:
 			write_attribute("value0", str(diffs[0][1]+1));
+		
+
+func get_debugger_representation():
+	var repr = debug_path.instantiate();
+	repr.on_init(self);
+	return repr;

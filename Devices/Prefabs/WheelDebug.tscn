@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://db3x84rym14xp"]
+
+[node name="WheelDebug" type="Control"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 15.0
+offset_bottom = 15.0
+size_flags_horizontal = 4
+
+[node name="Color" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 0
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
